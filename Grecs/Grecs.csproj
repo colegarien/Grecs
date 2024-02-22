@@ -5,6 +5,10 @@
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>GrECS</Title>
+    <RepositoryUrl>https://github.com/colegarien/Grecs</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ecs</PackageTags>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
   </PropertyGroup>
 
 </Project>
