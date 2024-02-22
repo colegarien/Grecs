@@ -64,12 +64,12 @@ namespace Grecs
                 : null;
         }
 
-        public T GetComponent<T>()
+        public T GetComponent<T>() where T: class
         {
-            IComponent component = GetComponent(typeof(T));
-            return component != null
-                ? (T)component
-                : default(T);
+            var type = typeof(T);
+            return HasComponent(type)
+                ? (T)_components[type]
+                : null;
         }
 
         public IComponent CreateComponent<T>() where T : new()
