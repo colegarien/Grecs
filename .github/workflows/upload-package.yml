@@ -15,7 +15,12 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x' # SDK Version to use.
-      - run: dotnet build --configuration Release Grecs
+      - name: Clear Releases
+        run: rm -rf Grecs/bin/*
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration Release Grecs
       - name: Create the package
         run: dotnet pack --configuration Release Grecs
       - name: Publish the package to Nuget
