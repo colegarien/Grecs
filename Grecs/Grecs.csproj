@@ -9,6 +9,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>ecs</PackageTags>
     <AssemblyVersion>1.0.1</AssemblyVersion>
+    <Version>$(AssemblyVersion)</Version>
   </PropertyGroup>
 
 </Project>
