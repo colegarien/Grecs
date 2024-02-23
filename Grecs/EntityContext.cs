@@ -6,6 +6,8 @@ namespace Grecs
 {
     public class EntityContext
     {
+        protected static Queue<Entity> _entityPool = new Queue<Entity>();
+
         protected IDictionary<uint, Entity> entities = new Dictionary<uint, Entity>();
         protected IDictionary<Type, List<uint>> entityComponents = new Dictionary<Type, List<uint>>();
         protected List<uint> recentlyRemoved = new List<uint>();
@@ -88,7 +90,10 @@ namespace Grecs
             if(entities.ContainsKey(newId))
                 return entities[newId];
 
-            entities[newId] = new Entity();
+            if (_entityPool.Count > 0)
+                entities[newId] = _entityPool.Dequeue();
+            else
+                entities[newId] = new Entity();
             entities[newId].id = newId;
             entities[newId].OnComponentAdded += OnComponentAdded;
             entities[newId].OnComponentChanged += OnComponentChanged;
@@ -103,6 +108,7 @@ namespace Grecs
             {
                 recentlyRemoved.Add(id);
                 entities[id].RemoveAllComponents();
+                _entityPool.Enqueue(entities[id]);
                 entities.Remove(id);
             }
         }
@@ -112,6 +118,7 @@ namespace Grecs
             recentlyRemoved.Add(entity.id);
 
             entity.RemoveAllComponents();
+            _entityPool.Enqueue(entity);
             entities.Remove(entity.id);
         }
 

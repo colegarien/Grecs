@@ -318,3 +318,64 @@ namespace GrecsExample
 }
 
 ```
+
+
+### Regular Component vs PooledComponent
+
+Use the `Grecs.PooledComponent` for any component that is constantly created and destroyed, otherwise extend the regular `Grecs.Component`
+
+The only functional difference between the two is your options for instantiation.
+For regular ol `Grecs.Component` you can `new` them up, or call `CreateComponent` on a `Grecs.Entity`
+For the `Grecs.PooledComponent` you  MUST use `[Your New PooledComponent sub class].GetInstance()` for the entity `CreateComponent`.
+
+Enjoy this small snippet
+
+```csharp
+internal class MyRegularOldComponent: Component
+{
+    private bool _isDone;
+    public bool IsDone
+    {
+        get => _isDone; set
+        {
+            if (_isDone != value)
+            {
+                _isDone = value;
+                Owner?.TriggerComponentChanged(this);
+            }
+        }
+    }
+}
+
+internal class MyFancyPooledVersion: PooledComponent<PooledIntention>
+{
+    private bool _isDone;
+    public bool IsDone
+    {
+        get => _isDone; set
+        {
+            if (_isDone != value)
+            {
+                _isDone = value;
+                Owner?.TriggerComponentChanged(this);
+            }
+        }
+    }
+}
+
+/// ... in your instantiation function
+
+var context = new Grecs.EntityContext();
+
+var entity = context.CreateEntity();
+
+// create a regular old component
+entity.AddComponent(new MyRegularOldComponent { IsDone = false });
+
+// creating a fancy pooled one, no fancy Object Intializer syntax :(
+var c = MyFancyPooledVersion.GetInstace();
+c.IsDone = true;
+entity.AddComponent(c);
+
+
+```

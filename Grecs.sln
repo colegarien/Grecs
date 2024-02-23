@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grecs", "Grecs\Grecs.csproj", "{C86F86CB-A719-48D7-B08B-64F9917897D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grecs", "Grecs\Grecs.csproj", "{C86F86CB-A719-48D7-B08B-64F9917897D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grecs.Test", "Grecs.Test\Grecs.Test.csproj", "{80E9741C-D199-41B0-867F-E2FDE9F4CDFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grecs.Test", "Grecs.Test\Grecs.Test.csproj", "{80E9741C-D199-41B0-867F-E2FDE9F4CDFE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C86F86CB-A719-48D7-B08B-64F9917897D3} = {C86F86CB-A719-48D7-B08B-64F9917897D3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grecs.Demo", "Grecs.Demo\Grecs.Demo.csproj", "{B3F3F590-0A4A-4532-AFB6-B76D74A1B284}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C86F86CB-A719-48D7-B08B-64F9917897D3} = {C86F86CB-A719-48D7-B08B-64F9917897D3}
 	EndProjectSection
@@ -24,6 +29,10 @@ Global
 		{80E9741C-D199-41B0-867F-E2FDE9F4CDFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80E9741C-D199-41B0-867F-E2FDE9F4CDFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80E9741C-D199-41B0-867F-E2FDE9F4CDFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3F3F590-0A4A-4532-AFB6-B76D74A1B284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3F3F590-0A4A-4532-AFB6-B76D74A1B284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3F3F590-0A4A-4532-AFB6-B76D74A1B284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3F3F590-0A4A-4532-AFB6-B76D74A1B284}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,14 +4,11 @@ using System.Linq;
 
 namespace Grecs
 {
-
     public delegate void ComponentEvent(Entity entity, IComponent component);
 
     public class Entity
     {
         protected IDictionary<Type, IComponent> _components = new Dictionary<Type, IComponent>();
-
-        // TODO OZ-6 implement pooling have the context initialize/manage the pool?
 
         public event ComponentEvent OnComponentAdded;
         public event ComponentEvent OnComponentChanged;
@@ -22,7 +19,7 @@ namespace Grecs
         public void AddComponent(IComponent component)
         {
             _components[component.GetType()] = component;
-            component.Owner = this;
+            component.Add(this);
 
             if (OnComponentAdded != null)
                 OnComponentAdded(this, component);
@@ -72,17 +69,35 @@ namespace Grecs
                 : null;
         }
 
-        public IComponent CreateComponent<T>() where T : new()
+        public IComponent CreateComponent<T>() where T : IComponent, new()
         {
-            IComponent c = (IComponent)new T();
-            c.Owner = this;
+            IComponent c;
+            var type = typeof(T);
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PooledComponent<>))
+            {
+                c = PooledComponent<T>.GetInstance();
+            }
+            else
+            {
+                c = new T();
+            }
+
+            c.Add(this);
             return c;
         }
 
         public IComponent CreateComponent(Type type)
         {
-            IComponent c = (IComponent)Activator.CreateInstance(type);
-            c.Owner = this;
+            IComponent c;
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PooledComponent<>))
+            {
+                c = (IComponent)type.GetMethod("GetInstance").Invoke(null,null);
+            }
+            else {
+                c = (IComponent)Activator.CreateInstance(type);
+            }
+
+            c.Add(this);
             return c;
         }
 
@@ -97,6 +112,7 @@ namespace Grecs
         public void TriggerComponentRemoved(IComponent component)
         {
             OnComponentRemoved?.Invoke(this, component);
+            component.Remove();
         }
     }
 }
