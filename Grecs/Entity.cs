@@ -18,6 +18,11 @@ namespace Grecs
 
         public void AddComponent(IComponent component)
         {
+            if (HasComponent(component.GetType()))
+            {
+                RemoveComponent(component);
+            }
+
             _components[component.GetType()] = component;
             component.Add(this);
 

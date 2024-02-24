@@ -159,6 +159,43 @@ namespace Grecs.Test
             // flush pools to clean up for other tests
             PooledComponentA.FlushInstances();
             PooledComponentB.FlushInstances();
+
+
+
+            /// TestQueryingForPooledComponents v2
+            // Arrange
+            entityA = _context.CreateEntity();
+
+            {
+                var componentA1 = PooledComponentA.GetInstance();
+                componentA1.Value = "From A";
+                entityA.AddComponent(componentA1);
+                entityA.RemoveComponent(componentA1);
+            }
+
+            {
+                var componentA2 = PooledComponentA.GetInstance();
+                componentA2.Value = "From A2";
+                entityA.AddComponent(componentA2);
+            }
+
+            componentB = (PooledComponentB)entityA.CreateComponent(typeof(PooledComponentB));
+            componentB.SomeNumber = 32;
+            entityA.AddComponent(componentB);
+            entityA.RemoveComponent(componentB);
+
+            // Act
+            theAs = _context.GetEntities((new EntityQuery()).Or(typeof(PooledComponentA), typeof(PooledComponentB)));
+
+            // Assert
+            Assert.Same(theAs.FirstOrDefault().GetComponent(typeof(PooledComponentA)), entityA.GetComponent(typeof(PooledComponentA)));
+            Assert.NotSame(entityA.GetComponent(typeof(PooledComponentA)), PooledComponentA.GetInstance());
+            Assert.Same(componentB, PooledComponentB.GetInstance());
+            Assert.NotSame(componentB, PooledComponentB.GetInstance());
+
+            // flush pools to clean up for other tests
+            PooledComponentA.FlushInstances();
+            PooledComponentB.FlushInstances();
         }
     }
 }
