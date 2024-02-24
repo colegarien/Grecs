@@ -31,6 +31,7 @@ namespace Grecs
             if (HasComponent(type))
             {
                 _components.Remove(type);
+                component.Remove();
             }
 
             TriggerComponentRemoved(component);
@@ -112,7 +113,6 @@ namespace Grecs
         public void TriggerComponentRemoved(IComponent component)
         {
             OnComponentRemoved?.Invoke(this, component);
-            component.Remove();
         }
     }
 }

@@ -130,6 +130,35 @@ namespace Grecs.Test
             // flush pools to clean up for other tests
             PooledComponentA.FlushInstances();
             PooledComponentB.FlushInstances();
+
+
+            /// TestQueryingForPooledComponents
+            // Arrange
+            entityA = _context.CreateEntity();
+
+            componentA = (PooledComponentA)entityA.CreateComponent<PooledComponentA>();
+            componentA.Value = "From A";
+            entityA.AddComponent(componentA);
+            entityA.RemoveComponent(componentA);
+
+            componentB = (PooledComponentB)entityA.CreateComponent(typeof(PooledComponentB));
+            componentB.SomeNumber = 32;
+            entityA.AddComponent(componentB);
+            entityA.RemoveComponent(componentB);
+
+            // Act
+            var theAs = _context.GetEntities((new EntityQuery()).Or(typeof(PooledComponentA), typeof(PooledComponentB)));
+
+            // Assert
+            Assert.Empty(theAs);
+            Assert.Same(componentA, PooledComponentA.GetInstance());
+            Assert.NotSame(componentA, PooledComponentA.GetInstance());
+            Assert.Same(componentB, PooledComponentB.GetInstance());
+            Assert.NotSame(componentB, PooledComponentB.GetInstance());
+
+            // flush pools to clean up for other tests
+            PooledComponentA.FlushInstances();
+            PooledComponentB.FlushInstances();
         }
     }
 }
