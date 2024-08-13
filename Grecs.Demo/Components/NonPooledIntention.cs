@@ -10,7 +10,7 @@
                 if (_isDone != value)
                 {
                     _isDone = value;
-                    Owner?.TriggerComponentChanged(this);
+                    TriggerChange();
                 }
             }
         }

@@ -10,7 +10,7 @@
                 if (_someNumber != value)
                 {
                     _someNumber = value;
-                    Owner?.TriggerComponentChanged(this);
+                    TriggerChange();
                 }
             }
         }

@@ -11,7 +11,7 @@
                 if (_value != value)
                 {
                     _value = value;
-                    Owner?.TriggerComponentChanged(this);
+                    TriggerChange();
                 }
             }
         }

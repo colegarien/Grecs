@@ -49,7 +49,7 @@ For Components to be built effectively and plug in smoothly to the various Entit
                 {
                     _maxHealth = value;
                     // this is key  to allow trigger systems to respond to changes
-                    Owner?.TriggerComponentChanged(this);
+                    TriggerChange();
                 }
             }
         }
@@ -61,7 +61,7 @@ For Components to be built effectively and plug in smoothly to the various Entit
                 if (_health != value)
                 {
                     _health = value;
-                    Owner?.TriggerComponentChanged(this);
+                    TriggerChange();
                 }
             }
         }
@@ -260,7 +260,7 @@ namespace GrecsExample
                 if (_someNumber != value)
                 {
                     _someNumber = value;
-                    Owner?.TriggerComponentChanged(this);
+                    TriggerChange();
                 }
             }
         }
@@ -341,7 +341,7 @@ internal class MyRegularOldComponent: Component
             if (_isDone != value)
             {
                 _isDone = value;
-                Owner?.TriggerComponentChanged(this);
+                TriggerChange();
             }
         }
     }
@@ -357,7 +357,7 @@ internal class MyFancyPooledVersion: PooledComponent<PooledIntention>
             if (_isDone != value)
             {
                 _isDone = value;
-                Owner?.TriggerComponentChanged(this);
+                TriggerChange();
             }
         }
     }

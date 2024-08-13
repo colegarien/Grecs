@@ -11,7 +11,7 @@ namespace Grecs.Test.Stub
                 if (floatyFloat != value)
                 {
                     floatyFloat = value;
-                    Owner?.TriggerComponentChanged(this);
+                    TriggerChange();
                 }
             }
         }
