@@ -22,6 +22,6 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release Grecs
       - name: Create the package
-        run: dotnet pack --configuration Release Grecs
+        run: dotnet pack --configuration Release Grecs -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
       - name: Publish the package to Nuget
         run: dotnet nuget push Grecs/bin/Release/*.nupkg -k ${{ secrets.NUGET_ORG_API_KEY }} -s https://api.nuget.org/v3/index.json
